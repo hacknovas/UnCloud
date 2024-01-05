@@ -18,18 +18,23 @@ contract NFTHub is ERC721URIStorage {
         mapping(address => bool) allowedAddresses;
     }
 
+    // All NFT(Data)
     mapping(uint => NFTData) private nftData;
+
+    // User with access of nft(data)
+
+    mapping(address => uint[]) sharedNFTData;
 
     modifier onlyOwner(uint256 token_ID) {
         NFTData storage temp = nftData[token_ID];
         require(
             msg.sender == temp.owner,
-            "Only the owner can perform this action"
+            "Only the owner can perform this action."
         );
         _;
     }
 
-    // creating nft
+    // Store nft(Data)
     function createNFT(string memory tokenURI) public returns (uint) {
         _tokenId += 1;
         _safeMint(msg.sender, _tokenId);
@@ -43,26 +48,29 @@ contract NFTHub is ERC721URIStorage {
         return _tokenId;
     }
 
-    //  sharing nft
+    //  Sharing nft(Data) (Only owner)
     function shareNFTWith(
         address allowedAddress,
         uint token_Id
     ) public onlyOwner(token_Id) {
         require(token_Id <= _tokenId, "Token ID does not exist");
+
         nftData[token_Id].totalAllowedAddress += 1;
         nftData[token_Id].allowedAddresses[allowedAddress] = true;
+
+        sharedNFTData[allowedAddress].push(token_Id);
     }
 
-    // getting all access address i.e shared with
+    // Getting all allowed address for specific nft(data) (Only Owner)
     function getAllowedAddresses(
         uint token_Id
-    ) public view returns (address[] memory) {
+    ) public view onlyOwner(token_Id) returns (address[] memory) {
         require(token_Id <= _tokenId, "Token ID does not exist");
         // NFTData storage data = nftData[token_Id];
         return nftData[token_Id].totalAddresses;
     }
 
-    // For accessing nft i.e shared
+    // Accessing nft(Data) (Who has Access)
     function canAccessNFT(
         address account,
         uint token_Id
@@ -78,5 +86,21 @@ contract NFTHub is ERC721URIStorage {
             "You do not have access to view this NFT"
         );
         return tokenURI(tokenId);
+    }
+
+    // Get All NFT(User with allowed NFT)
+    function getAllNFTs() public view returns (string[] memory) {
+        uint[] memory allID = sharedNFTData[msg.sender];
+        uint len = allID.length;
+
+        string[] memory data = new string[](len);
+        uint temp = 0;
+        for (uint i = 0; i < len; i++) {
+            if (nftData[allID[i]].allowedAddresses[msg.sender]) {
+                data[temp++] = tokenURI(allID[i]);
+            }
+        }
+
+        return data;
     }
 }
