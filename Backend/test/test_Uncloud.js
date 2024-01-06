@@ -6,22 +6,28 @@ describe("Uncloud Testing", async () => {
 
   it("createNFT", async () => {
     const [owner, second, third] = await ethers.getSigners();
-    // console.log(owner);
+    console.log(owner.address);
 
     const instance = await ethers.deployContract("NFTHub");
 
-    // console.log(constractAddress);
-    // console.log(JSON.stringify(await instance._tokenId));
-    const tokenID3 = await instance.createNFT("sdgjgskahkshffdka");
-    console.log("createNFT=>" + tokenID3);
+    const createT = await instance.createNFT("sdgjgskahkshffdka");
+    // console.log(tokenID3.returnValue);
 
-    const tokenID = await instance.createNFT("sdgjgskahkshdka");
-    console.log("createNFT=>" + tokenID.toString());
+    const token = await instance._tokenId();
+    console.log(token);
 
-    const tokenID1 = await instance.createNFT("sdgjgskahkshdkdsfsa");
-    console.log("createNFT=>" + JSON.stringify(tokenID1));
+    const mynft = await instance.getMyNFT();
+    console.log(mynft);
 
-    // expect;
-    // chai.expect.toString.eqaul
+    const shareNFT = await instance.shareNFTWith(second.address, 1);
+
+    const getAlladdrr = await instance.connect(owner).getAllowedAddresses(1);
+    console.log(getAlladdrr);
+
+    const viewNFT = await instance.connect(second).viewNFT(1);
+    console.log(viewNFT);
+
+    const getAllNFT = await instance.connect(owner).getAllNFTs();
+    console.log(getAllNFT);
   });
 });

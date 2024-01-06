@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity >=0.8.6 <0.9.0;
+pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -38,7 +38,7 @@ contract NFTHub is ERC721URIStorage {
     }
 
     // Store nft(Data)
-    function createNFT(string memory tokenURI) public returns (uint) {
+    function createNFT(string memory tokenURI) public {
         _tokenId += 1;
         _safeMint(msg.sender, _tokenId);
         _setTokenURI(_tokenId, tokenURI);
@@ -50,10 +50,10 @@ contract NFTHub is ERC721URIStorage {
 
         ownerNFT[msg.sender].push(_tokenId);
 
-        return _tokenId;
+        // return _tokenId;
     }
 
-    // get My NFT
+    // get My(owner) NFT
     function getMyNFT() public view returns (string[] memory) {
         uint[] memory allID = ownerNFT[msg.sender];
         uint len = allID.length;
@@ -76,6 +76,7 @@ contract NFTHub is ERC721URIStorage {
 
         nftData[token_Id].totalAllowedAddress += 1;
         nftData[token_Id].allowedAddresses[allowedAddress] = true;
+        nftData[token_Id].totalAddresses.push(allowedAddress);
 
         sharedNFTData[allowedAddress].push(token_Id);
     }
@@ -89,7 +90,7 @@ contract NFTHub is ERC721URIStorage {
         return nftData[token_Id].totalAddresses;
     }
 
-    // Accessing nft(Data) (Who has Access)
+    // Accessing nft(Data) (Who has Access) except owner
     function canAccessNFT(
         address account,
         uint token_Id
