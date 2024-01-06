@@ -15,10 +15,10 @@ export default function App() {
     const instance = new ethers.Contract(uncloud.address, uncloud.abi, Signer);
 
     const tokenID = await instance.createNFT(hash);
-    console.log("createNFT=>" + tokenID);
+    console.log("createNFT=>" + tokenID.toString());
 
-    const mynft = await instance.getMyNFT();
-    console.log("myNFT =>" + mynft);
+    // const mynft = await instance.getMyNFT();
+    // console.log("myNFT =>" + mynft);
 
     // const share
   };

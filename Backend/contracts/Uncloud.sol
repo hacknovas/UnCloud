@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.6 <0.9.0;
 
+import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract NFTHub is ERC721URIStorage {
-    uint256 private _tokenId;
+    uint public _tokenId;
+    address payable Uncloud_owner;
 
-    constructor() ERC721("NFTHub", "NFT Hub") {
-        // owner = msg.sender;
+    constructor() ERC721("UNCLOUD", "UC") {
+        Uncloud_owner = payable(msg.sender);
     }
 
     struct NFTData {
@@ -26,7 +28,7 @@ contract NFTHub is ERC721URIStorage {
     // User with access of nft(data)
     mapping(address => uint[]) sharedNFTData;
 
-    modifier onlyOwner(uint256 token_ID) {
+    modifier onlyOwner(uint token_ID) {
         NFTData storage temp = nftData[token_ID];
         require(
             msg.sender == temp.owner,
