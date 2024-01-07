@@ -91,7 +91,22 @@ contract UnCloud is ERC721URIStorage {
         return entireMetaData[token_Id].address_List;
     }
 
-    //
+    // Change Permission of Shared Data
+    function editAddressPermissions(
+        address account,
+        uint meta_ID
+    ) public onlyOwner(meta_ID) {
+        require(meta_ID <= _metaID, "Token ID does not exist");
+
+        MetaData storage temp = entireMetaData[meta_ID];
+        if (temp.address_Permission[account] == false) {
+            temp.address_Permission[account] = true;
+        } else {
+            temp.address_Permission[account] = false;
+        }
+    }
+
+    // Struct to return Data
     struct temp_Data {
         string tokenURI;
         string name;
@@ -127,7 +142,6 @@ contract UnCloud is ERC721URIStorage {
     function getMySharedData() public view returns (temp_Data[] memory) {
         uint[] memory allID = sharedMetaData[msg.sender];
         uint len = allID.length;
-        // string memory a;
 
         temp_Data[] memory data = new temp_Data[](len);
         uint temp = 0;
