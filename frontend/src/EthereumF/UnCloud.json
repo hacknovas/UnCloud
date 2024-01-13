@@ -1,6 +1,6 @@
 {
   "contractName": "UnCloud",
-  "contractAddress": "0x47254904414e9E5fBFe1673F69104863e2Fe7fc1",
+  "contractAddress": "0x5E4b690938A3243f161A6F6dE3897a1d72eBe8cE",
   "abi": [
     {
       "inputs": [],
@@ -354,6 +354,11 @@
         {
           "components": [
             {
+              "internalType": "uint256",
+              "name": "metaID",
+              "type": "uint256"
+            },
+            {
               "internalType": "string",
               "name": "tokenURI",
               "type": "string"
@@ -383,6 +388,11 @@
       "outputs": [
         {
           "components": [
+            {
+              "internalType": "uint256",
+              "name": "metaID",
+              "type": "uint256"
+            },
             {
               "internalType": "string",
               "name": "tokenURI",

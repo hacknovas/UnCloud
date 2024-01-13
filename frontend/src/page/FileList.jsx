@@ -2,14 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";
 import { CloudContext } from "../ContextAPI/Provider";
 import { useNavigate } from "react-router-dom";
+import ManageAccess from "../components/ManageAccess";
 
 function TodoItem() {
   const navigator = useNavigate();
 
   const { signer } = useContext(CloudContext);
+  const [openManageAccess, setopenManageAccess] = useState(false);
 
   // File Has options
-  // [] of { tokenURI(HashValue):"-/-", name:"-/-", owner:address }
+  // [] of { metaID:-/-, tokenURI(HashValue):"-/-", name:"-/-", owner:address }
   const [myFiles, setmyFiles] = useState([]);
 
   const getMyFiles = async () => {
@@ -64,13 +66,23 @@ function TodoItem() {
                 Open File
               </a>
             </div>
+            <div>ID: {file.metaID.toString()}</div>
             <div>File Name: {file.name}</div>
             <div>Owner: {file.owner}</div>
 
-            <button className="w-20 h-10 rounded-lg text-sm text-rose-600 border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0">
+            <button
+              className="w-20 h-10 rounded-lg text-sm text-rose-600 border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0"
+              onClick={() => {
+                // manageAccess(file.metaID.toString());
+                openManageAccess
+                  ? setopenManageAccess(false)
+                  : setopenManageAccess(true);
+              }}
+            >
               Manage access
             </button>
           </li>
+          {openManageAccess ? <ManageAccess file={file} /> : <></>}
         </ul>
       ))}
     </div>

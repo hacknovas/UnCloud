@@ -68,10 +68,6 @@ function ReceivedFiles() {
             </div>
             <div>File Name: {file.name}</div>
             <div>Owner: {file.owner}</div>
-
-            <button className="w-20 h-10 rounded-lg text-sm text-rose-600 border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0">
-              Manage access
-            </button>
           </li>
         </ul>
       ))}

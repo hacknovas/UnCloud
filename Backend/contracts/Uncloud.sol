@@ -54,15 +54,28 @@ contract UnCloud is ERC721URIStorage {
         userOwnMetaData[msg.sender].push(_metaID);
     }
 
+    // Struct to return Data
+    struct temp_Data {
+        uint metaID;
+        string tokenURI;
+        string name;
+        address owner;
+    }
+
     // Function to Get User Owned Data
-    function getMyData() public view returns (string[] memory) {
+    function getMyData() public view returns (temp_Data[] memory) {
         uint[] memory allID = userOwnMetaData[msg.sender];
         uint len = allID.length;
 
-        string[] memory data = new string[](len);
+        temp_Data[] memory data = new temp_Data[](len);
         uint temp = 0;
         for (uint i = 0; i < len; i++) {
-            data[temp++] = tokenURI(allID[i]);
+            data[temp++] = temp_Data(
+                entireMetaData[allID[i]].metaID,
+                tokenURI(allID[i]),
+                entireMetaData[allID[i]].name,
+                entireMetaData[allID[i]].owner
+            );
         }
 
         return data;
@@ -106,13 +119,6 @@ contract UnCloud is ERC721URIStorage {
         }
     }
 
-    // Struct to return Data
-    struct temp_Data {
-        string tokenURI;
-        string name;
-        address owner;
-    }
-
     // (Permissioned Users) Access/View MetaData
     function canAccessMetaData(
         address account,
@@ -154,6 +160,7 @@ contract UnCloud is ERC721URIStorage {
                 data[temp].tokenURI = u;
                 data[temp].name = n;
                 data[temp].owner = a;
+                data[temp].metaID = allID[i];
                 temp++;
             }
         }
