@@ -7,7 +7,8 @@ const Provider = ({ children }) => {
   const [address, setAddress] = useState("");
   const [signer, setSigner] = useState();
 
-  
+  useEffect(() => {
+  }, []);
 
   return (
     <CloudContext.Provider value={{ signer, setSigner, address, setAddress }}>

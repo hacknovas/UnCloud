@@ -1,11 +1,14 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import axios from "axios";
 import { CloudContext } from "../ContextAPI/Provider";
 import UnCloud from "../EthereumF/UnCloud.json";
+import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
+  const navigator = useNavigate();
+
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { address, signer } = useContext(CloudContext);
@@ -79,6 +82,13 @@ const Upload = () => {
 
     alert("Uploaded Successfully");
   };
+
+  useEffect(() => {
+    if (!signer) {
+      alert("Connect To metamask");
+      navigator("/");
+    }
+  }, []);
 
   return (
     <div className="absolute right-0 top-0 w-4/5 flex items-center justify-center h-screen">

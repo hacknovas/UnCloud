@@ -18,7 +18,6 @@ const Sidebar = () => {
       const Signer = await Provider.getSigner();
 
       setAddress(Signer.address);
-        // console.log(Signer.address);
       setSigner(Signer);
     } else {
       alert("To use UnCloul...Install Metamask Wallet");

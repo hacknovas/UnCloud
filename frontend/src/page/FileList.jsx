@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";
 import { CloudContext } from "../ContextAPI/Provider";
-// import { useTodo } from "../contexts";
+import { useNavigate } from "react-router-dom";
 
 function TodoItem() {
+  const navigator = useNavigate();
+
   const { signer } = useContext(CloudContext);
 
   // File Has options
@@ -41,8 +43,12 @@ function TodoItem() {
   };
 
   useEffect(() => {
-    getMyFiles();
-    signer ? <></> : (window.location.href = "/");
+    if (!signer) {
+      alert("Connect To metamask");
+      navigator("/");
+    } else {
+      getMyFiles();
+    }
   }, []);
 
   return (
