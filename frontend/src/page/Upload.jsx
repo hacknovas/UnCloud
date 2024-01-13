@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Button from './Button';
+import Button from '../components/Button';
 import { IoCloudUploadOutline } from 'react-icons/io5';
 
 const Upload = () => {
@@ -25,7 +25,7 @@ const Upload = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="absolute right-0 top-0 w-4/5 flex items-center justify-center h-screen">
             <div className="flex flex-col items-center space-y-4">
                 {/* Display selected files */}
                 {selectedFiles.length > 0 ? (

@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom'
 function Register() {
     return (
         <>
-            <section className="min-h-screen w-full flex items-center justify-center ">
+            <section className="min-h-screen w-full flex items-center justify-center bg-blue-100 ">
                 <div className="flex flex-col items-center bg-white p-4 rounded-md shadow-md w-[95%] max-w-[550px]">
-                    <h1 className="text-xl font-bold">Hey new to Meta market! 👋</h1>
+                    <h1 className="text-xl font-bold">Hey, new to UnCloud ? 👋</h1>
                     <p className="mt-2 max-w-[80%] text-center">
                         Create an account and start using now.
                     </p>
@@ -53,7 +53,7 @@ function Register() {
 
                     <div className="mt-4">
                         Already have an account?{" "}
-                        <Link href="/login" className="text-primary">
+                        <Link to="/login" className="text-primary">
                             Sign Up
                         </Link>
                     </div>
