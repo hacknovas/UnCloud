@@ -1,6 +1,6 @@
 {
   "contractName": "UnCloud",
-  "contractAddress":"0x7802bf38F182D728808a516c19FD3f857ea2D417",
+  "contractAddress": "0x47254904414e9E5fBFe1673F69104863e2Fe7fc1",
   "abi": [
     {
       "inputs": [],
@@ -352,9 +352,26 @@
       "name": "getMyData",
       "outputs": [
         {
-          "internalType": "string[]",
+          "components": [
+            {
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct UnCloud.temp_Data[]",
           "name": "",
-          "type": "string[]"
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",

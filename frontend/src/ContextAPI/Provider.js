@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createContext, useState } from "react";
 
 export const CloudContext = createContext();
@@ -5,6 +6,8 @@ export const CloudContext = createContext();
 const Provider = ({ children }) => {
   const [address, setAddress] = useState("");
   const [signer, setSigner] = useState();
+
+  
 
   return (
     <CloudContext.Provider value={{ signer, setSigner, address, setAddress }}>
