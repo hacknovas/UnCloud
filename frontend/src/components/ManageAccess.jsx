@@ -8,10 +8,8 @@ export default function ManageAccess({ file }) {
   const { signer } = useContext(CloudContext);
 
   const manageAccess = async () => {
-    // get All Allowed Adreess
+    // get All Adreess associated with each file
     const ethres = require("ethers");
-
-    console.log(signer);
 
     const contractInstance = new ethres.Contract(
       UnCloud.contractAddress,
@@ -26,6 +24,7 @@ export default function ManageAccess({ file }) {
   };
 
   const handleShare = async () => {
+    // share file with other address
     const ethres = require("ethers");
 
     console.log(signer);
@@ -39,6 +38,7 @@ export default function ManageAccess({ file }) {
     await contractInstance.shareDataWith(shareAddress, file.metaID);
 
     setAllowedAddress([...allowedAddress, ...shareAddress]);
+    console.log("Sharing Done...Wait some time to reflect.");
   };
 
   const editAccess = async (address) => {
@@ -51,6 +51,8 @@ export default function ManageAccess({ file }) {
     );
 
     await contractInstance.editAddressPermissions(address, file.metaID);
+
+    console.log("access modified ...Wait some time to reflect.");
   };
 
   useEffect(() => {
