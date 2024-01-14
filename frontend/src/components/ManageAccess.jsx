@@ -73,7 +73,7 @@ export default function ManageAccess({ file }) {
                     editAccess(addr);
                   }}
                 >
-                  <b> &rarr; edit_Here</b>{" "}
+                  <b> &rarr; Remove Access</b>{" "}
                 </button>
               </li>
             );
