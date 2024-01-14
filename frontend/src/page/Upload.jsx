@@ -11,6 +11,7 @@ const Upload = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploadStatus, setUploadStatus] = useState("Upload And Wait");
   const { address, signer } = useContext(CloudContext);
 
   const handleUploadClick = () => {
@@ -35,7 +36,8 @@ const Upload = () => {
 
   //Upload to IPFS
   const UploadToIpfs = async () => {
-    console.log(address);
+    setUploadStatus("Uploading to IPFS...");
+
     const formData = new FormData();
 
     formData.append("file", selectedFiles[0]);
@@ -61,7 +63,7 @@ const Upload = () => {
       );
 
       //https://gateway.pinata.cloud/ipfs/ + res.data.IpfsHash
-      console.log(res.data.IpfsHash);
+      console.log("Hash Value from IPFS: ", res.data.IpfsHash);
 
       uploadToBlockchain(res.data.IpfsHash, "FileName");
     } catch (error) {
@@ -70,6 +72,7 @@ const Upload = () => {
   };
 
   const uploadToBlockchain = async (hashVal, name) => {
+    setUploadStatus("Uploading to Blockchain");
     const ethres = require("ethers");
 
     const contractInstance = new ethres.Contract(
@@ -81,6 +84,7 @@ const Upload = () => {
     await contractInstance.storeMetaData(hashVal, name);
 
     alert("Uploaded Successfully");
+    setUploadStatus("Upload and Wait")
   };
 
   useEffect(() => {
@@ -138,13 +142,19 @@ const Upload = () => {
           onClick={handleUploadClick}
           className="text-white rounded-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
-          Upload File
+          Select File
         </Button>
-      </div>
 
-      <button type="button" onClick={UploadToIpfs}>
-        upload to ipfs
-      </button>
+        <div className="">
+          <button
+            type="button"
+            className="text-white rounded-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={UploadToIpfs}
+          >
+            {uploadStatus}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
