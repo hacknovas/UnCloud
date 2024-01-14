@@ -1,6 +1,6 @@
 {
   "contractName": "UnCloud",
-  "contractAddress": "0x19b64BE29C6714f652da81E3a0447d891AC744ed",
+  "contractAddress": "0xdfa2DA8fE791B2a6dD5104f9A2a932f6d53af1Fb",
   "abi": [
     {
       "inputs": [],
@@ -320,9 +320,21 @@
       "name": "getAllAddress",
       "outputs": [
         {
-          "internalType": "address[]",
+          "components": [
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "access",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct UnCloud.allAccessData[]",
           "name": "",
-          "type": "address[]"
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",

@@ -23,8 +23,6 @@ export default function ManageAccess({ file }) {
 
     setAllowedAddress(result);
     console.log(Array.from(result));
-
-    // Giving Access to others
   };
 
   const handleShare = async () => {
@@ -67,13 +65,14 @@ export default function ManageAccess({ file }) {
           {allowedAddress.map((addr, i) => {
             return (
               <li key={i}>
-                {addr}
+                {addr.account}
                 <button
                   onClick={() => {
-                    editAccess(addr);
+                    editAccess(addr.account);
                   }}
                 >
-                  <b> &rarr; Remove Access</b>{" "}
+                  &rarr;
+                  {addr.access ? <b>Remove Access</b> : <b>Give Access</b>}
                 </button>
               </li>
             );

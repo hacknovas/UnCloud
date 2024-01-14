@@ -95,13 +95,30 @@ contract UnCloud is ERC721URIStorage {
         sharedMetaData[allowedAddress].push(token_Id);
     }
 
+    // getAllAddress return state
+    struct allAccessData {
+        address account;
+        bool access;
+    }
+
     // Getting all address for specific metaData (Only Owner Perform this task)
     function getAllAddress(
         uint token_Id
-    ) public view onlyOwner(token_Id) returns (address[] memory) {
+    ) public view onlyOwner(token_Id) returns (allAccessData[] memory) {
         require(token_Id <= _metaID, "Token ID does not exist");
+        address[] memory temp = entireMetaData[token_Id].address_List;
+        uint len = temp.length;
 
-        return entireMetaData[token_Id].address_List;
+        allAccessData[] memory data = new allAccessData[](len);
+
+        for (uint i = 0; i < len; i++) {
+            data[i] = allAccessData(
+                temp[i],
+                entireMetaData[token_Id].address_Permission[temp[i]]
+            );
+        }
+
+        return data;
     }
 
     // Change Permission of Shared Data
