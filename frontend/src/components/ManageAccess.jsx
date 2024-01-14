@@ -60,7 +60,7 @@ export default function ManageAccess({ file }) {
   }, []);
 
   return (
-    <div>
+    <div className="my-3">
       <div>
         Access Members:
         <ul>
