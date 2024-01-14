@@ -157,10 +157,12 @@ contract UnCloud is ERC721URIStorage {
                     allID[i]
                 );
 
-                data[temp].tokenURI = u;
-                data[temp].name = n;
-                data[temp].owner = a;
-                data[temp].metaID = allID[i];
+                data[temp] = temp_Data(allID[i], u, n, a);
+
+                // data[temp].metaID = allID[i];
+                // data[temp].tokenURI = u;
+                // data[temp].name = n;
+                // data[temp].owner = a;
                 temp++;
             }
         }
