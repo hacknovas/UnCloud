@@ -84,7 +84,7 @@ const Upload = () => {
     await contractInstance.storeMetaData(hashVal, name);
 
     alert("Uploaded Successfully");
-    setUploadStatus("Upload and Wait")
+    setUploadStatus("Upload and Wait");
   };
 
   useEffect(() => {
