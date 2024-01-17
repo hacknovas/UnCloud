@@ -9,24 +9,16 @@ function ReceivedFiles() {
   const { signer } = useContext(CloudContext);
   const [sharedFiles, setSharedFiles] = useState([]);
 
-  const todos = [
-    { id: 1, todo: "Todo msg" },
-    { id: 2, todo: "Todo msg2" },
-    { id: 3, todo: "Todo msg3" },
-    { id: 4, todo: "Todo msg4" },
-  ];
+  // const todos = [
+  //   { id: 1, todo: "Todo msg" },
+  //   { id: 2, todo: "Todo msg2" },
+  //   { id: 3, todo: "Todo msg3" },
+  //   { id: 4, todo: "Todo msg4" },
+  // ];
 
   // const [todoMsg, setTodoMsg] = useState(todo.todo);
   // const { deleteTodo, updateTodo, toggleTodo } = useTodo();
 
-  const editTodo = () => {
-    // updateTodo(todo.id, { ...todo, todo: todo.todoMsg })
-    // setIsTodoEditable(false);
-  };
-
-  const toggleCompleted = () => {
-    // toggleTodo(todo.id)
-  };
 
   const getSharedFiles = async () => {
     const ethres = require("ethers");
