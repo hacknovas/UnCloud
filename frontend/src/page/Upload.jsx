@@ -8,10 +8,11 @@ import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
   const navigator = useNavigate();
+  const [error, setError] = useState("");
 
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [uploadStatus, setUploadStatus] = useState("Upload And Wait");
+  const [uploadStatus, setUploadStatus] = useState("Upload");
   const { address, signer } = useContext(CloudContext);
 
   const handleUploadClick = () => {
@@ -36,19 +37,16 @@ const Upload = () => {
 
   //Upload to IPFS
   const UploadToIpfs = async () => {
-    setUploadStatus("Uploading to IPFS...");
-
-    const formData = new FormData();
-
-    formData.append("file", selectedFiles[0]);
-
-    // const pinataMetadata = JSON.stringify({
-    //   name: "temp_del",
-    // });
-
-    // formData.append("pinataMetadata", pinataMetadata);
-
+    setError("");
     try {
+      setUploadStatus("Uploading to IPFS...");
+      const formData = new FormData();
+      
+      // Append each file with a unique key
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append(`file`, selectedFiles[i]);
+      }
+      
       const res = await axios.post(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
         formData,
@@ -62,29 +60,46 @@ const Upload = () => {
         }
       );
 
-      //https://gateway.pinata.cloud/ipfs/ + res.data.IpfsHash
-      console.log("Hash Value from IPFS: ", res.data.IpfsHash);
-
-      uploadToBlockchain(res.data.IpfsHash, "FileName");
+      if (res) {
+        for (let i = 0; i < selectedFiles.length; i++) {
+          console.log(`Hash Value from IPFS for file ${i + 1}:`, res.data.IpfsHash);
+          uploadToBlockchain(res.data.IpfsHash, selectedFiles[i].name);
+        }
+      }
     } catch (error) {
-      console.log(error);
+      setUploadStatus("Upload");
+      setError(error.message);
     }
   };
-
+  
+  
   const uploadToBlockchain = async (hashVal, name) => {
-    setUploadStatus("Uploading to Blockchain");
-    const ethres = require("ethers");
-
-    const contractInstance = new ethres.Contract(
-      UnCloud.contractAddress,
-      UnCloud.abi,
-      signer
-    );
-
-    await contractInstance.storeMetaData(hashVal, name);
-
-    alert("Uploaded Successfully");
-    setUploadStatus("Upload and Wait");
+    setError("")
+    console.log("function called");
+    try {
+      setUploadStatus("Uploading to Blockchain");
+      const ethres = require("ethers");
+      
+      console.log("required etheres");
+      const contractInstance = new ethres.Contract(
+        UnCloud.contractAddress,
+        UnCloud.abi,
+        signer
+        );
+        console.log("created object");
+        
+        await contractInstance.storeMetaData(hashVal, name);
+        console.log("Done");
+        
+        alert("Uploaded Successfully");
+        setUploadStatus("Upload");
+        setSelectedFiles([])
+      } catch (error) {
+        setUploadStatus("Upload");
+        if (error.code === 4001) {
+        //user rejected the transaction
+      }
+    }
   };
 
   useEffect(() => {
@@ -146,13 +161,16 @@ const Upload = () => {
         </Button>
 
         <div className="">
-          <button
-            type="button"
-            className="text-white rounded-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={UploadToIpfs}
-          >
-            {uploadStatus}
-          </button>
+          {selectedFiles.length > 0 ? (
+            <Button
+              type="button"
+              className="text-white rounded-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              onClick={UploadToIpfs}
+            >
+              {uploadStatus}
+            </Button>
+          ) : null}
+
         </div>
       </div>
     </div>

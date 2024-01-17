@@ -4,7 +4,7 @@ import { CloudContext } from "../ContextAPI/Provider";
 import { useNavigate } from "react-router-dom";
 import File from "../components/File";
 
-function TodoItem() {
+function FileList() {
   const navigator = useNavigate();
 
   const { signer } = useContext(CloudContext);
@@ -61,4 +61,4 @@ function TodoItem() {
   );
 }
 
-export default TodoItem;
+export default FileList;
