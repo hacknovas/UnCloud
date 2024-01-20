@@ -31,18 +31,6 @@ function FileList() {
     console.log(Array.from(result));
   };
 
-  // const [todoMsg, setTodoMsg] = useState(todo.todo);
-  // const { deleteTodo, updateTodo, toggleTodo } = useTodo();
-
-  const editTodo = () => {
-    // updateTodo(todo.id, { ...todo, todo: todo.todoMsg })
-    // setIsTodoEditable(false);
-  };
-
-  const toggleCompleted = () => {
-    // toggleTodo(todo.id)
-  };
-
   useEffect(() => {
     if (!signer) {
       alert("Connect To metamask");
