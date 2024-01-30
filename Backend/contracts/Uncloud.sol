@@ -17,6 +17,7 @@ contract UnCloud is ERC721URIStorage {
         string name;
         uint total_Address;
         address owner;
+        string secretKey;
         address[] address_List;
         mapping(address => bool) address_Permission;
     }
@@ -41,7 +42,11 @@ contract UnCloud is ERC721URIStorage {
     }
 
     // Function to Store Data
-    function storeMetaData(string memory tokenURI, string memory _name) public {
+    function storeMetaData(
+        string memory tokenURI,
+        string memory _name,
+        string memory _SKey
+    ) public {
         _metaID += 1;
         _safeMint(msg.sender, _metaID);
         _setTokenURI(_metaID, tokenURI);
@@ -49,6 +54,7 @@ contract UnCloud is ERC721URIStorage {
         MetaData storage temp = entireMetaData[_metaID];
         temp.metaID = _metaID;
         temp.name = _name;
+        temp.secretKey = _SKey;
         temp.owner = msg.sender;
 
         userOwnMetaData[msg.sender].push(_metaID);
@@ -60,6 +66,7 @@ contract UnCloud is ERC721URIStorage {
         string tokenURI;
         string name;
         address owner;
+        string secretKey;
     }
 
     // Function to Get User Owned Data
@@ -74,7 +81,8 @@ contract UnCloud is ERC721URIStorage {
                 entireMetaData[allID[i]].metaID,
                 tokenURI(allID[i]),
                 entireMetaData[allID[i]].name,
-                entireMetaData[allID[i]].owner
+                entireMetaData[allID[i]].owner,
+                entireMetaData[allID[i]].secretKey
             );
         }
 
@@ -148,7 +156,11 @@ contract UnCloud is ERC721URIStorage {
 
     function viewMetaData(
         uint tokenID
-    ) public view returns (string memory, string memory, address) {
+    )
+        public
+        view
+        returns (string memory, string memory, address, string memory)
+    {
         require(
             canAccessMetaData(msg.sender, tokenID),
             "You do not have access to view this NFT"
@@ -157,7 +169,8 @@ contract UnCloud is ERC721URIStorage {
         return (
             tokenURI(tokenID),
             entireMetaData[tokenID].name,
-            entireMetaData[tokenID].owner
+            entireMetaData[tokenID].owner,
+            entireMetaData[tokenID].secretKey
         );
     }
 
@@ -170,11 +183,14 @@ contract UnCloud is ERC721URIStorage {
         uint temp = 0;
         for (uint i = 0; i < len; i++) {
             if (entireMetaData[allID[i]].address_Permission[msg.sender]) {
-                (string memory u, string memory n, address a) = viewMetaData(
-                    allID[i]
-                );
+                (
+                    string memory u,
+                    string memory n,
+                    address a,
+                    string memory s
+                ) = viewMetaData(allID[i]);
 
-                data[temp] = temp_Data(allID[i], u, n, a);
+                data[temp] = temp_Data(allID[i], u, n, a, s);
 
                 // data[temp].metaID = allID[i];
                 // data[temp].tokenURI = u;
