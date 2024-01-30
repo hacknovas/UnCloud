@@ -3,6 +3,8 @@ import { CloudContext } from "../ContextAPI/Provider";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";
+import axios from "axios";
+import { decrypt } from "../AESEncrDecr/encryptDecrypt";
 
 function ReceivedFiles() {
   const ethers = require("ethers");
@@ -51,13 +53,24 @@ function ReceivedFiles() {
       {sharedFiles.map((file, i) =>
         file.metaID ? (
           <div className="flex justify-around list-none m-0 px-10">
-            <div>
-              <a
-                href={"https://gateway.pinata.cloud/ipfs/" + file.tokenURI}
-                target="_blank"
-              >
-                Open File
-              </a>
+            <div
+              onClick={async () => {
+                // Fetch encrypted data from the IPFS
+                const response = await axios.get(
+                  `https://gateway.pinata.cloud/ipfs/${file.tokenURI}`
+                );
+
+                // Decrypt the data
+                decrypt(
+                  new Blob([response.data]),
+                  file.name.split(".")[1],
+                  file.secretKey
+                );
+              }}
+              style={{ cursor: "pointer" }}
+              className="size-7"
+            >
+              <img src="./Images/openFile2.png" alt="NA" />
             </div>
             <div>{file.name}</div>
             <div> {file.owner}</div>

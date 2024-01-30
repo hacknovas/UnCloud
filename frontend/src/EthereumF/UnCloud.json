@@ -1,6 +1,6 @@
 {
   "contractName": "UnCloud",
-  "contractAddress": "0xdfa2DA8fE791B2a6dD5104f9A2a932f6d53af1Fb",
+  "contractAddress": "0xA492F8e023D3e8597A765533B07655151BC352Af",
   "abi": [
     {
       "inputs": [],
@@ -384,6 +384,11 @@
               "internalType": "address",
               "name": "owner",
               "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "secretKey",
+              "type": "string"
             }
           ],
           "internalType": "struct UnCloud.temp_Data[]",
@@ -419,6 +424,11 @@
               "internalType": "address",
               "name": "owner",
               "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "secretKey",
+              "type": "string"
             }
           ],
           "internalType": "struct UnCloud.temp_Data[]",
@@ -583,6 +593,11 @@
           "internalType": "string",
           "name": "_name",
           "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_SKey",
+          "type": "string"
         }
       ],
       "name": "storeMetaData",
@@ -688,6 +703,11 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "stateMutability": "view",

@@ -2,6 +2,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";
 import Input from "./Input";
+import { decrypt } from "../AESEncrDecr/encryptDecrypt";
+import axios from "axios";
 
 export default function File({ file }) {
   const ethers = require("ethers");
@@ -81,13 +83,24 @@ export default function File({ file }) {
   return (
     <>
       <div className="flex items-center justify-around rounded-lg px-3 py-1.5 shadow-sm shadow-white/50 duration-300 text-black mb-2 ">
-        <div>
-          <a
-            href={"https://gateway.pinata.cloud/ipfs/" + file.tokenURI}
-            target="_blank"
-          >
-            Open File
-          </a>
+        <div
+          onClick={async () => {
+            // Fetch encrypted data from the IPFS
+            const response = await axios.get(
+              `https://gateway.pinata.cloud/ipfs/${file.tokenURI}`
+            );
+
+            // Decrypt the data
+            decrypt(
+              new Blob([response.data]),
+              file.name.split(".")[1],
+              file.secretKey
+            );
+          }}
+          style={{ cursor: "pointer" }}
+          className="size-7"
+        >
+          <img src="./Images/openFile2.png" alt="NA" />
         </div>
         <div>{file.metaID.toString()}</div>
         <div>

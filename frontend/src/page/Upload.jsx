@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import axios from "axios";
-import { CloudContext } from "../ContextAPI/Provider";
 import UnCloud from "../EthereumF/UnCloud.json";
 import { useNavigate } from "react-router-dom";
+import { encrypt, createSecret256 } from "../AESEncrDecr/encryptDecrypt";
 
 const Upload = () => {
   const navigator = useNavigate();
@@ -13,6 +13,10 @@ const Upload = () => {
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState("Upload");
+
+  //
+  const [encryptedFileUrl, setEncryptedFileUrl] = useState(null);
+  //
 
   const handleUploadClick = () => {
     // Trigger the file input click event
@@ -37,13 +41,19 @@ const Upload = () => {
   //Upload to IPFS
   const UploadToIpfs = async () => {
     try {
+      console.log("1");
       // Append each file with a unique key
       for (let i = 0; i < selectedFiles.length; i++) {
         setUploadStatus(
           "Uploading " + selectedFiles[i].name.substring(0, 5) + "..." + " file"
         );
+
+        const secretKey = createSecret256();
+        const encryptBlobData = await encrypt(selectedFiles[i], secretKey);
+
+        // const encryptFile = new File([encryptBlobData], selectedFiles[i].name);
         const formData = new FormData();
-        formData.append(`file`, selectedFiles[i]);
+        formData.append("file", encryptBlobData);
 
         const res = await axios.post(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -58,30 +68,30 @@ const Upload = () => {
           }
         );
 
-        await uploadToBlockchain(res.data.IpfsHash, selectedFiles[i].name);
+        console.log("2");
+
+        await uploadToBlockchain(
+          res.data.IpfsHash,
+          selectedFiles[i].name,
+          secretKey
+        );
       }
+      console.log("4");
 
       alert("Wait Some Time to reflect in file section");
-
-      // Log
-      // if (res) {
-      //   for (let i = 0; i < selectedFiles.length; i++) {
-      //     console.log(
-      //       `Hash Value from IPFS for file ${i + 1}:`,
-      //       res.data.IpfsHash
-      //     );
-      //   }
-      // }
     } catch (error) {
+      console.log(error);
       setUploadStatus("Upload");
       setError(error.message);
     }
   };
 
-  const uploadToBlockchain = async (hashVal, name) => {
+  const uploadToBlockchain = async (hashVal, name, secretKey) => {
     const ethers = require("ethers");
     setError("");
     try {
+      console.log("3");
+
       const Provider = new ethers.BrowserProvider(window.ethereum);
       const Signer = await Provider.getSigner();
 
@@ -91,7 +101,7 @@ const Upload = () => {
         Signer
       );
 
-      await contractInstance.storeMetaData(hashVal, name);
+      await contractInstance.storeMetaData(hashVal, name, secretKey);
     } catch (error) {
       setUploadStatus("Upload");
       if (error.code === 4001) {
