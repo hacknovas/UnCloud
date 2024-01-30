@@ -1,5 +1,4 @@
-// import React, { useState } from "react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";
 import Input from "./Input";
 import { decrypt } from "../AESEncrDecr/encryptDecrypt";
@@ -7,11 +6,10 @@ import axios from "axios";
 
 export default function File({ file }) {
   const ethers = require("ethers");
-  //
+
   const [allowedAddress, setAllowedAddress] = useState([]);
   const [shareAddress, setShareAddress] = useState("");
 
-  //
   const [openManageAccess, setopenManageAccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -114,7 +112,6 @@ export default function File({ file }) {
           className="w-20 h-10 rounded-lg text-sm text-rose-600 border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0"
           onClick={() => {
             setShowModal(true);
-            // manageAccess(file.metaID.toString());
             openManageAccess
               ? setopenManageAccess(false)
               : setopenManageAccess(true);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import axios from "axios";
@@ -13,10 +13,6 @@ const Upload = () => {
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState("Upload");
-
-  //
-  const [encryptedFileUrl, setEncryptedFileUrl] = useState(null);
-  //
 
   const handleUploadClick = () => {
     // Trigger the file input click event
@@ -68,15 +64,12 @@ const Upload = () => {
           }
         );
 
-        console.log("2");
-
         await uploadToBlockchain(
           res.data.IpfsHash,
           selectedFiles[i].name,
           secretKey
         );
       }
-      console.log("4");
 
       alert("Wait Some Time to reflect in file section");
     } catch (error) {
@@ -90,8 +83,6 @@ const Upload = () => {
     const ethers = require("ethers");
     setError("");
     try {
-      console.log("3");
-
       const Provider = new ethers.BrowserProvider(window.ethereum);
       const Signer = await Provider.getSigner();
 

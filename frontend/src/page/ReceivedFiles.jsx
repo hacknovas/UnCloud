@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from "react";
-import { CloudContext } from "../ContextAPI/Provider";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";

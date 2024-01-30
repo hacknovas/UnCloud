@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import UnCloud from "../EthereumF/UnCloud.json";
-import { CloudContext } from "../ContextAPI/Provider";
 import { useNavigate } from "react-router-dom";
 import File from "../components/File";
 
