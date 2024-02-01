@@ -28,5 +28,5 @@ This project aims to create a secure and decentralized file sharing system using
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/blockchain-file-sharing.git
+   git clone https://github.com/hacknovas/UnCloud.git
    cd blockchain-file-sharing
