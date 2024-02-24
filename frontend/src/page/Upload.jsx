@@ -16,7 +16,6 @@ const Upload = () => {
 
   const handleUploadClick = () => {
     // Trigger the file input click event
-
     fileInputRef.current.click();
   };
 

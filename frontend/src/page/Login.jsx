@@ -1,8 +1,25 @@
 import {Link} from "react-router-dom"
-import React from "react"
+import React, { useState } from "react"
 import Input from "../components/Input"
 import Button from "../components/Button"
+// import { login } from "../config/auth"
+
+
 export default function Login() {
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+
+    console.log(process.env.VITE_APPWRITE_URL)
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+
+        try {
+            // await login({email,password})
+        } catch(e) {
+        }
+    }
+
     return (
         <>
             <section className="min-h-screen w-full flex items-center justify-center bg-blue-100">
@@ -22,6 +39,8 @@ export default function Login() {
                                 title="Email address"
                                 type="email"
                                 name="email"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                             />
                         </div>
 
@@ -31,10 +50,12 @@ export default function Login() {
                                 title="Password"
                                 type="password"
                                 name="password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
                             />
                         </div>
 
-                        <Button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <Button onClick={handleFormSubmit} type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             Login
                         </Button>
                     </form>
