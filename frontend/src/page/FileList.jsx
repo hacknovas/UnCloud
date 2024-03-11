@@ -41,14 +41,16 @@ function FileList() {
   }, []);
 
   return (
-    <div className="container m-3">
-      <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-4/5">
-        <div className="flex justify-around mb-3 text-start bg-gray-50 p-3">
+    <div className="container m-3 h-full">
+      <div className="absolute top-10 right-0 transform -translate-y-1/2 w-4/5">
+        <div className="flex justify-around mb-3 text-start bg-gray-300 p-3">
           <div>File</div>
           <div>ID</div>
           <div>Name</div>
           <div>Edit</div>
         </div>
+      </div>
+      <div className="m ml-80 mt-20">
         {myFiles.map((file, i) => {
           return <File key={i} file={file} />;
         })}
