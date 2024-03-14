@@ -38,6 +38,13 @@ function FileList() {
         navigator("/");
       }
     })();
+
+    window.ethereum.on("accountsChanged", async () => {
+      const Provider = new ethers.BrowserProvider(window.ethereum);
+      const Signer = await Provider.getSigner();
+      getMyFiles(Signer);
+    });
+
   }, []);
 
   return (

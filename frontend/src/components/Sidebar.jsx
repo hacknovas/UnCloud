@@ -28,9 +28,8 @@ const Sidebar = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("MetamaskCredentials");
-    setAddress("");
+  const handleLogout = async () => {
+    
   };
 
   return (
@@ -54,10 +53,15 @@ const Sidebar = () => {
               </button>
             )
           ) : (
-            <div className="bg-white text-black text-center font-bold">
-              {address.substring(0, 4) +
-                "..." +
-                address.substring(address.length - 5, address.length)}
+            <div>
+              <div className="bg-white text-black text-center font-bold">
+                {address.substring(0, 4) +
+                  "..." +
+                  address.substring(address.length - 5, address.length)}
+              </div>
+              {/* <div className="text-xl">
+                <CiLogout onClick={handleLogout} />
+              </div> */}
             </div>
           )}
         </div>
@@ -102,12 +106,13 @@ const Sidebar = () => {
         </div>
       )}
       {/* Logout Button */}
-      
-        <Button className="w-12 h-12 bg-rose-500 rounded-full flex items-center justify-center cursor-pointer text-white text-2xl font-extrabold mt-4"
-        onClick={handleLogout}>
-          <CiLogout />
-        </Button>
-      
+
+      <Button
+        className="w-12 h-12 bg-rose-500 rounded-full flex items-center justify-center cursor-pointer text-white text-2xl font-extrabold mt-4"
+        onClick={handleLogout}
+      >
+        <CiLogout />
+      </Button>
     </div>
   );
 };
